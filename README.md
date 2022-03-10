@@ -1,7 +1,7 @@
 # MacAddressDB
 get your network devices mac address tables into json text files
 
-## example of MacAddressEntry object
+## creating MacAddressEntry object
 
 ```python
 mac1 = MacAddressEntry(mac="28-52-61-aa-bb-cc", \
@@ -35,5 +35,13 @@ mac1 = MacAddressEntry(**{"mac":"28-52-61-aa-bb-cc", \
 mac_list = MacAddressList()
 mac_list.update(mac1)
 
+```
+
+## updating port number for MacAddressEntry in MacAddressList
+
+```python
+mac_list.update(MacAddressEntry(**{"mac":"28-52-61-aa-bb-cc", "port":"gi1/2"}))
 
 ```
+
+
