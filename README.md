@@ -1,2 +1,17 @@
 # MacAddressDB
 get your network devices mac address tables into json text files
+
+## example of MacAddressEntry object
+
+```python
+mac1 = MacAddressEntry(mac="28-52-61-aa-bb-cc", \
+                        port="gi1/1", \
+                        date="2022-02-05 14:58:48", \
+                        ip=["172.16.0.2", \
+                            "10.0.0.2", \
+                            "192.168.0.2"], \
+                        port_description = "home router", \
+                        company = "Cisco Systems, Inc", \
+                        last_seen = "2022-02-20 10:10:22",
+                        )
+```
