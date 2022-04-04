@@ -1,7 +1,7 @@
-# MacAddressDB
+# mac_address_db
 get your network devices mac address tables into json text files
 
-## import MacAddressDB
+## import mac_address_db
 ```python
 from mac_address_db import *
 ```
