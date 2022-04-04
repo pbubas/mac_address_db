@@ -3,7 +3,7 @@ get your network devices mac address tables into json text files
 
 ## import MacAddressDB
 ```python
-from MacAddressDB import *
+from mac_address_db import *
 ```
 
 ## creating MacAddressEntry object
