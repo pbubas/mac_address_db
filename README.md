@@ -80,6 +80,12 @@ mac_list.update(mac1)
         "last_seen": "2022-03-10 14:02:17"
     }
 ]
+
+```
+
+## adding new IP for MacAddressEntry in MacAddressList
+
+```python
 >>> mac_list.update(MacAddressEntry(**{"mac":"28-52-61-aa-bb-cc", "ip":"10.0.0.3"}))
 >>> print (mac_list.to_json())
 [
