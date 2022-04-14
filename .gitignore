@@ -1,2 +1,4 @@
 test*.py
 *.json
+venv
+__pycache__
