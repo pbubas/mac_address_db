@@ -35,14 +35,16 @@ class MacAddressEntry:
             except KeyError:
                 self.company = ''
 
-        try: #try to read `ip` as a list 
+        self.ip = []
+        try: #try to read `ip` as a list
             self.ip = [str(ipaddress.ip_address(e)) for e in ip]
         except ValueError: # if failed read as str
             try:
-                self.ip = []
-                self.ip = [str(ipaddress.ip_address(ip))]
+                self.ip.append(str(ipaddress.ip_address(ip)))
             except ValueError:
-                 self.ip = []
+                print(f'wrong IP provided {ip} for mac {self.mac}')
+        except TypeError:
+            pass #ip not provided
 
     def __repr__(self):
         return str(self.__dict__)
@@ -120,14 +122,13 @@ class MacAddressList:
 
 
 class IOSMacAddressList(MacAddressList):
-    def __init__(self, device, vrfs):
+    def __init__(self, device, vrfs:list=None):
         self.connect = ConnectHandler(**device)
         super().__init__()
         self.port_descriptions = self._get_port_descriptions() #use genie to get entire show interface
         self.mac_address_table = self._get_mac_address_table()
         self.arp_table = self._get_arp_table()
-        self.arp_table_vrf_outside = self._get_arp_table(vrf='vrf OUTSIDE')
-
+        self.vrfs = vrfs if vrfs else []
 
         for entry in self.mac_address_table: #Add port description to mac address table
             try:
@@ -156,16 +157,17 @@ class IOSMacAddressList(MacAddressList):
                 print (f"cannot parse entry: {entry} {str(e)}")
 
         #update entries from arp_table_vrf_outside
-        for entry in self.arp_table_vrf_outside:
-            try:
-                self.update(MacAddressEntry(
-                            mac=entry['mac'],
-                            ip=entry['ip']
-                            ))
-            except AttributeError as e:
-                print (f"cannot update entry: {entry} {str(e)}")
-            except ValueError as e:
-                print (f"cannot parse entry: {entry} {str(e)}")
+        for vrf in self.vrfs:
+            for entry in (self._get_arp_table(vrf='vrf ' + vrf)):
+                try:
+                    self.update(MacAddressEntry(
+                                mac=entry['mac'],
+                                ip=entry['ip']
+                                ))
+                except AttributeError as e:
+                    print (f"cannot update entry: {entry} {str(e)}")
+                except ValueError as e:
+                    print (f"cannot parse entry: {entry} {str(e)}")
 
         self.connect.disconnect()
 

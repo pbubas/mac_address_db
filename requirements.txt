@@ -1,3 +1,4 @@
 netmiko==3.4.0
 macaddress==1.2.0
 mac_vendor_lookup==0.1.12
+requests==2.27.1
